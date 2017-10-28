@@ -87,27 +87,32 @@ function spotifyThisSong () {
 	// keyword is used to search artist, album, etc. why?
 	
 	spotify.search({ type: 'track', query: songName, limit: '20' }, function (error, data) {
-		if (error) {
+		// console.log('err', error)
+		// console.log('data', data)
+
+		if (data.tracks.next === null) {
 			console.log('------------------error------------------');
+			console.log('------------instead, how about-----------');
 			console.log('');
 			console.log('artist: Ace of Base');
 			console.log('song: The Sign');
 			console.log('preview link: https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=ef5a2d6c5b4d4b17b6c005c67c7b1027');
 			console.log('album: The Sign (US Album) [Remastered]');
 			console.log('');
-			return console.log(error);
-		};
-		// console.log(data);
-		// console.log(data.tracks);
-		// console.log(data.tracks.items);
-		for (var i = 0; i < data.tracks.items.length; i++) {
-			console.log('----------------------------------------');
-			console.log('');
-			console.log('artist: ' + data.tracks.items[i].artists[0].name);
-			console.log('song: ' + data.tracks.items[i].name);
-			console.log('preview link: ' + data.tracks.items[i].preview_url);
-			console.log('album: ' + data.tracks.items[i].album.name);
-			console.log('');
+			// return console.log(error);  // not needed because we are not returning anything.
+		} else {
+			// console.log(data);
+			// console.log(data.tracks);
+			// console.log(data.tracks.items);
+			for (var i = 0; i < data.tracks.items.length; i++) {
+				console.log('----------------------------------------');
+				console.log('');
+				console.log('artist: ' + data.tracks.items[i].artists[0].name);
+				console.log('song: ' + data.tracks.items[i].name);
+				console.log('preview link: ' + data.tracks.items[i].preview_url);
+				console.log('album: ' + data.tracks.items[i].album.name);
+				console.log('');
+			};
 		}
 	});
 }
@@ -116,8 +121,10 @@ function spotifyThisSong () {
 
 function movieThis () {
 	Request('http://www.omdbapi.com/?apikey=' + omdbKey + '&t=' + movieName, function (error, response, body) {
-		if (error) {
-			console.log('----------------------------------------');
+		console.log('data', response);
+		if (JSON.parse(body).Title === undefined) {
+			console.log('------------------error------------------');
+			console.log('------------instead, how about-----------');
 			console.log('');
 			console.log('Title: Mr. Nobody');
 			console.log('Year: 2009');
@@ -128,7 +135,7 @@ function movieThis () {
 			console.log("Plot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.");
 			console.log('Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham');
 			console.log('');
-			return console.log(error);
+			// return console.log(error);  // not needed because we are not returning anything.
 		} else {
 			console.log('----------------------------------------');
 			console.log('');
